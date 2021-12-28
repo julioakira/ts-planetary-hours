@@ -2,11 +2,14 @@ import requests
 import re
 import os
 import json
+from typing import TypeVar, Type
 from utils import get_dotenv
 from datetime import date
 from telegram.ext import Updater, InlineQueryHandler, CommandHandler
 from dataclasses import dataclass
 from dotenv import load_dotenv
+
+AuthType = TypeVar('AuthType', bound='Auth')
 
 @dataclass (eq=True, frozen=True)
 class Auth:
@@ -16,7 +19,7 @@ class Auth:
     current_date: str
 
     @classmethod
-    def load_environment(cls):
+    def load_environment(cls) -> AuthType:
         dotenv_path = get_dotenv()
         load_dotenv(dotenv_path=dotenv_path)
         token = os.getenv('TOKEN')
@@ -25,16 +28,16 @@ class Auth:
         current_date = date.today().strftime("%Y-%m-%d")
         return cls(token, api_url, coordinates, current_date)
     
-    def retrieve_token(self):
+    def retrieve_token(self) -> str:
         return self.token
     
-    def retrieve_api_url(self):
+    def retrieve_api_url(self) -> str:
         return self.api_url
     
-    def retrieve_coordinates(self):
+    def retrieve_coordinates(self) -> str:
         return self.coordinates
     
-    def retrieve_date(self):
+    def retrieve_date(self) -> str:
         return self.current_date
 
 def get_planetary_hour(base_url: str, date: str, location: str) -> str:
