@@ -13,6 +13,8 @@ black = "*"
 flake8 = "*"
 mypy = "*"
 dataclasses = "*"
+jupyterlab = "*"
+ipython = "*"
 
 [requires]
 python_version = "3.8"
